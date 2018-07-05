@@ -14,12 +14,12 @@ export class EmployeeListComponent implements OnInit {
   constructor(private employeeService: EmployeeService, private toastr: ToastrService) { }
 
   ngOnInit() {
-    let x = this.employeeService.getData();
+    const x = this.employeeService.getData();
 
     x.snapshotChanges().subscribe(item => {
       this.employeeList = [];
       item.forEach(element => {
-        let y = element.payload.toJSON();
+        const y = element.payload.toJSON();
         y['$key'] = element.key;
         this.employeeList.push(y as Employee);
       });
@@ -31,7 +31,7 @@ export class EmployeeListComponent implements OnInit {
   }
 
   onDelete(key: string) {
-    if (confirm('Are you sure to delete this item ? ') == true) {
+    if (confirm('Are you sure to delete this item ? ') === true) {
       this.employeeService.deleteEmployee(key);
       this.toastr.error('Deleted Succefully', 'Employee Register');
     }

@@ -1,6 +1,6 @@
 <form #employeeForm="ngForm" (ngSubmit)="onSubmit(employeeForm)">
   <legend>Registration</legend>
-  <input type="hidden" class="form-control" id="" name="$key" required #$key="ngModel" [(ngModel)]="employeeService.selectedEmployee.$key">
+  <input type="hidden" class="form-control" id="" name="$key" #$key="ngModel" [(ngModel)]="employeeService.selectedEmployee.$key">
   <div class="form-group">
     <label for="">Name</label>
     <input type="text" class="form-control" id="" placeholder="Name" name="name" required #name="ngModel" [(ngModel)]="employeeService.selectedEmployee.name">
