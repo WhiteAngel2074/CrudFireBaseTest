@@ -16,7 +16,7 @@ export class EmployeeService {
     return this.employeeList;
   }
 
-  // insert Data 
+  // insert Data
 
   insertEmployee(employee: Employee) {
     this.employeeList.push({
@@ -27,17 +27,17 @@ export class EmployeeService {
     });
   }
 
-  // Update Data !! 
+  // Update Data !!
   updateData(employee: Employee) {
     this.employeeList.update(employee.$key, {
       name: employee.name,
       position: employee.position,
       office: employee.office,
       salary: employee.salary
-    })
+    });
   }
 
-  // delete Data !! 
+  // delete Data !!
 
   deleteEmployee($key: string) {
     this.employeeList.remove($key);

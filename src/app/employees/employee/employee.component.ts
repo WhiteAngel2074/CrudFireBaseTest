@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild  } from '@angular/core';
 import { EmployeeService } from '../shared/employee.service';
+import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -8,14 +9,19 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./employee.component.css']
 })
 export class EmployeeComponent implements OnInit {
+@ViewChild(ToastContainerDirective) toastContainer: ToastContainerDirective;
 
-  constructor(private employeeService: EmployeeService) { }
+  constructor(private employeeService: EmployeeService, private toastr: ToastrService) { }
 
   ngOnInit() {
+    this.employeeService.getData();
     this.resetForm();
   }
 
   onSubmit(employeeForm: NgForm) {
+    this.employeeService.insertEmployee(employeeForm.value);
+    this.resetForm(employeeForm);
+    this.toastr.success('Submitted Succefully', 'Employee Register');
 
   }
 
