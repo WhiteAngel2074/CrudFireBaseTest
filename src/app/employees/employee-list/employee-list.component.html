@@ -8,7 +8,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngIf="employeeList.length==0">
+    <tr *ngIf="employeeList?.length==0">
       <td class="text-center">No Data</td>
     </tr>
     <tr *ngFor="let employee of employeeList">

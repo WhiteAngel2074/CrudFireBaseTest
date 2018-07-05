@@ -1,6 +1,6 @@
-<form #employeeForm="ngForm" (ngSubmit)="onSubmit(employeeForm)" >
+<form #employeeForm="ngForm" (ngSubmit)="onSubmit(employeeForm)">
   <legend>Registration</legend>
-
+  <input type="hidden" class="form-control" id="" name="$key" required #$key="ngModel" [(ngModel)]="employeeService.selectedEmployee.$key">
   <div class="form-group">
     <label for="">Name</label>
     <input type="text" class="form-control" id="" placeholder="Name" name="name" required #name="ngModel" [(ngModel)]="employeeService.selectedEmployee.name">
@@ -27,11 +27,11 @@
   </div>
 
   <div class="form-group">
-    <button type="submit" class="btn btn-primary" [disabled]=!employeeForm.valid >
+    <button type="submit" class="btn btn-primary" [disabled]=!employeeForm.valid>
       <i class="fa fa-floppy-o"></i>
       Submit</button>
-    <button type="button" class="btn btn-danger" (click)="resetForm(employeeForm)" >
-        <i class="fa fa-repeat"></i>
+    <button type="button" class="btn btn-danger" (click)="resetForm(employeeForm)">
+      <i class="fa fa-repeat"></i>
       Cancel</button>
   </div>
 
