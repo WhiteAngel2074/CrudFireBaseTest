@@ -1,3 +1,30 @@
-<p>
-  Liste des employees
-</p>
+<legend>List Employees</legend>
+<table class="table table-sm table-hover">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Position</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngIf="employeeList.length==0">
+      <td class="text-center">No Data</td>
+    </tr>
+    <tr *ngFor="let employee of employeeList">
+      <td> {{employee.name}} </td>
+      <td> {{employee.position}} </td>
+      <td>
+        <a class="btn" (click)="onEdit(employee)" >
+          <i class="fa fa-pencil-square-o"></i>
+        </a>
+      </td>
+
+      <td>
+          <a class="btn" (click)="onDelete($key)" >
+            <i class="fa fa-trash-o"></i>
+          </a>
+        </td>
+    </tr>
+  </tbody>
+</table>
