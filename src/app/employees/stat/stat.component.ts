@@ -1,7 +1,10 @@
+import { Employee } from './../shared/employee.model';
 import { map } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { WeatherService } from '../shared/weather.service';
+import { EmployeeService } from '../shared/employee.service';
 import { Chart } from 'chart.js';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-stat',
@@ -10,7 +13,9 @@ import { Chart } from 'chart.js';
 })
 export class StatComponent implements OnInit {
   chart = [];
-  constructor(private _weather: WeatherService) { }
+  charty = [];
+  employeeList: Employee[];
+  constructor(private _weather: WeatherService, private employeeService: EmployeeService) { }
 
   ngOnInit() {
     this._weather.dailyForecast().subscribe(res => {
@@ -24,7 +29,7 @@ export class StatComponent implements OnInit {
       const weatherDates = [];
       alldates.forEach((resi) => {
         const jsdate = new Date(resi * 1000);
-        weatherDates.push(jsdate.toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' }));
+        weatherDates.push(jsdate.toLocaleDateString('fr', { year: 'numeric', month: 'short', day: 'numeric' }));
       });
 
       console.log(weatherDates);
@@ -58,23 +63,71 @@ export class StatComponent implements OnInit {
               display: true,
               ticks: {
                 // Include a dollar sign in the ticks
-                callback: function(value, index, values) {
-                    return '$' + value;
+                callback: function (value, index, values) {
+                  return '$' + value;
                 },
                 scaleLabel: {
                   display: true,
                   labelString: '1k = 1000'
+                }
               }
-            }
             }],
             yAxes: [{
               display: true
-            }]
+            }],
+            scaleLabel: { fontSize: 200 }
           }
         }
       });
 
+      // end Chart
     });
+
+    // From Firebase
+    const x = this.employeeService.getData();
+    x.snapshotChanges().subscribe(lol => {
+      this.employeeList = [];
+      // tslint:disable-next-line:no-shadowed-variable
+      lol.forEach(element => {
+        const s = element.payload.toJSON();
+        console.log('uuuuuuuuuuuuuu', s);
+        s['$key'] = element.key;
+        this.employeeList.push(s as Employee);
+        console.log('---------------', this.employeeList);
+      });
+
+      // integrate Charty !
+      this.charty = new Chart('canvass', {
+        type: 'bar',
+        data: {
+          labels: ['Reponse A', 'Reponse B', 'Reponse C'],
+          datasets: [{
+            label: ' Votes ',
+            data: this.employeeList
+          }]
+        },
+        options: {
+          legend: {
+            display: false
+          }}
+      });
+      // end Charty
+    });
+
+    // x.snapshotChanges().subscribe(item => {
+    //   this.employeeList = [];
+    //   console.log('----------', this.employeeList);
+    //   item.forEach(element => {
+    //     const y = element.payload.toJSON();
+    //     console.log(y);
+    //     y['$key'] = element.key;
+    //     this.employeeList.push(y as Employee);
+    //   });
+    // });
+    // End Firebase
+
+    // Begin Charty
+    // End Charty
   }
 
 }

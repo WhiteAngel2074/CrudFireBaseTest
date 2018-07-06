@@ -20,6 +20,7 @@ export class EmployeeListComponent implements OnInit {
       this.employeeList = [];
       item.forEach(element => {
         const y = element.payload.toJSON();
+        // console.log(y);
         y['$key'] = element.key;
         this.employeeList.push(y as Employee);
       });

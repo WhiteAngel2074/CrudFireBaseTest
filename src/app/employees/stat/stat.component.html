@@ -1,3 +1,14 @@
-<div *ngIf="chart">
-  <canvas id="canvas"> {{chart}} </canvas>
+<div class="row">
+  <div class="col-md-6">
+      <legend>Exemple Bar Chart</legend>
+    <div *ngIf="chart">
+      <canvas id="canvas"> {{chart}} </canvas>
+    </div>
+  </div>
+  <div class="col-md-6">
+      <legend>Votes</legend>
+      <div *ngIf="charty">
+          <canvas id="canvass"> {{charty}} </canvas>
+        </div>
+  </div>
 </div>
