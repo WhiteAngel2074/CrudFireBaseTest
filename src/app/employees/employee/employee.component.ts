@@ -1,14 +1,17 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { EmployeeService } from '../shared/employee.service';
 import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
+import { StatComponent } from '../stat/stat.component';
 
 @Component({
   selector: 'app-employee',
   templateUrl: './employee.component.html',
   styleUrls: ['./employee.component.css']
 })
+// tslint:disable-next-line:no-unused-expression
 export class EmployeeComponent implements OnInit {
+  parentValue: string;
   @ViewChild(ToastContainerDirective) toastContainer: ToastContainerDirective;
 
   constructor(private employeeService: EmployeeService, private toastr: ToastrService) { }

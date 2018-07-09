@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EmployeesComponent implements OnInit {
 
+  count: number = 300;
   constructor(private employeeService: EmployeeService) { }
 
   ngOnInit() {

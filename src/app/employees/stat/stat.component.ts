@@ -1,6 +1,6 @@
 import { Employee } from './../shared/employee.model';
 import { map } from 'rxjs/operators';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { WeatherService } from '../shared/weather.service';
 import { EmployeeService } from '../shared/employee.service';
 import { Chart } from 'chart.js';
@@ -12,27 +12,35 @@ import { element } from 'protractor';
   styleUrls: ['./stat.component.css']
 })
 export class StatComponent implements OnInit {
+  @Input()
+  parentCount: number;
   chart = [];
   charty = [];
   employeeList: Employee[];
+  salaries = [];
+  positions = [];
   constructor(private _weather: WeatherService, private employeeService: EmployeeService) { }
 
   ngOnInit() {
     this._weather.dailyForecast().subscribe(res => {
-      console.log(res);
-      const temp_max = res['list'].map(res => res.main.temp_max);
-      const temp_min = res['list'].map(res => res.main.temp_min);
-      const alldates = res['list'].map(res => res.dt);
+      // console.log(res);
+      // const temp_max = res['list'].map(res => res.main.temp_max);
+      // const temp_min = res['list'].map(res => res.main.temp_min);
+      // const alldates = res['list'].map(res => res.dt);
 
-      // initialize the date !!
 
-      const weatherDates = [];
-      alldates.forEach((resi) => {
-        const jsdate = new Date(resi * 1000);
-        weatherDates.push(jsdate.toLocaleDateString('fr', { year: 'numeric', month: 'short', day: 'numeric' }));
-      });
+      // // const json = JSON.parse(res);
+      // // console.log('Le cal ', json.res.calctime);
 
-      console.log(weatherDates);
+      // // initialize the date !!
+
+      // const weatherDates = [];
+      // alldates.forEach((resi) => {
+      //   const jsdate = new Date(resi * 1000);
+      //   weatherDates.push(jsdate.toLocaleDateString('fr', { year: 'numeric', month: 'short', day: 'numeric' }));
+      // });
+
+      // console.log(weatherDates);
 
       // integrate ChartJS Code
       this.chart = new Chart('canvas', {
@@ -90,44 +98,54 @@ export class StatComponent implements OnInit {
       // tslint:disable-next-line:no-shadowed-variable
       lol.forEach(element => {
         const s = element.payload.toJSON();
-        console.log('uuuuuuuuuuuuuu', s);
+        // console.log('Positions', s['position']);
+        this.positions.push(s['position']);
+        console.log('Les positions', this.positions);
+
+        this.salaries.push(s['salary']);
+        console.log('Les salaires', this.salaries);
+
         s['$key'] = element.key;
-        this.employeeList.push(s as Employee);
-        console.log('---------------', this.employeeList);
+        const cc = this.employeeList;
+        cc.push(s as Employee);
+        // console.log('--------------->', cc);
       });
 
       // integrate Charty !
       this.charty = new Chart('canvass', {
         type: 'bar',
         data: {
-          labels: ['Reponse A', 'Reponse B', 'Reponse C'],
+        //  labels: this.positions,
+        labels: ['Reponse A', 'Reponse B', 'Reponse C'],
           datasets: [{
             label: ' Votes ',
-            data: this.employeeList
+            data: ['50', '100', '80' ],
+            // data: this.salaries,
+            backgroundColor: '#3cba9f',
+            fill: false
           }]
         },
         options: {
           legend: {
             display: false
-          }}
+          },
+          scales: {
+            xAxes: [{
+              barPercentage: 0.8,
+              display: true
+            }],
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              },
+              display: true
+            }],
+            scaleLabel: { fontSize: 200 }
+          }
+        }
       });
       // end Charty
     });
-
-    // x.snapshotChanges().subscribe(item => {
-    //   this.employeeList = [];
-    //   console.log('----------', this.employeeList);
-    //   item.forEach(element => {
-    //     const y = element.payload.toJSON();
-    //     console.log(y);
-    //     y['$key'] = element.key;
-    //     this.employeeList.push(y as Employee);
-    //   });
-    // });
-    // End Firebase
-
-    // Begin Charty
-    // End Charty
   }
 
 }
