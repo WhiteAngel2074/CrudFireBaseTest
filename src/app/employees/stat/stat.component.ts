@@ -46,15 +46,15 @@ export class StatComponent implements OnInit {
       this.chart = new Chart('canvas', {
         type: 'bar',
         data: {
-          labels: weatherDates,
+        //  labels: weatherDates,
           datasets: [{
-            data: temp_max,
+           // data: temp_max,
             borderColor: '#3cba9f',
             backgroundColor: '#3cba9f',
             fill: false
           },
           {
-            data: temp_min,
+          //  data: temp_min,
             borderColor: '#ffcc00',
             backgroundColor: '#ffcc00',
             fill: false
